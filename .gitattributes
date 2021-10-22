@@ -8,3 +8,4 @@
 /portal/profiles/docker export-ignore
 /portal/profiles/integracion export-ignore
 .history export-ignore
+*.sh text eol=lf
