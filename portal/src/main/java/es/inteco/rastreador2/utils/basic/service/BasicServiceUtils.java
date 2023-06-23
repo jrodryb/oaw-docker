@@ -26,6 +26,7 @@ import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Enumeration;
@@ -128,7 +129,11 @@ public final class BasicServiceUtils {
 	 */
 	public static BasicServiceForm getBasicServiceForm(final BasicServiceForm basicServiceForm, final HttpServletRequest request) {
 		Logger.putLog("getBasicServiceForm " + basicServiceForm.toString(), BasicServiceUtils.class, Logger.LOG_LEVEL_ERROR);
-		basicServiceForm.setUser(request.getParameter(Constants.PARAM_USER));
+		if (request.getParameter(Constants.PARAM_USER) != null) {
+			basicServiceForm.setUser(request.getParameter(Constants.PARAM_USER));
+		} else {
+			basicServiceForm.setUser(request.getParameter(Constants.PARAM_EMAIL));
+		}
 		String urlParameter = request.getParameter(Constants.PARAM_URL);
 		if (urlParameter != null) {
 			String url = "";
@@ -195,7 +200,11 @@ public final class BasicServiceUtils {
 				basicServiceForm.setDomain(es.inteco.utils.CrawlerUtils.encodeUrl(basicServiceForm.getDomain()));
 			}
 			// basicServiceForm.setDomain(request.getParameter("urls"));
-			basicServiceForm.setAnalysisType(BasicServiceAnalysisType.LISTA_URLS);
+			if (basicServiceForm.getContent() != null && StringUtils.isNotEmpty(basicServiceForm.getContent())) {
+				basicServiceForm.setAnalysisType(BasicServiceAnalysisType.MIXTO);
+			} else {
+				basicServiceForm.setAnalysisType(BasicServiceAnalysisType.LISTA_URLS);
+			}
 		}
 		basicServiceForm.setInDirectory(Boolean.parseBoolean(request.getParameter(Constants.PARAM_IN_DIRECTORY)));
 		basicServiceForm.setRegisterAnalysis(Boolean.parseBoolean(request.getParameter("registerAnalysis")));
@@ -260,7 +269,11 @@ public final class BasicServiceUtils {
 			} catch (IOException e) {
 				Logger.putLog("No se puede leer el fichero zip adjuntado", BasicServiceUtils.class, Logger.LOG_LEVEL_WARNING, e);
 			}
-			basicServiceForm.setAnalysisType(BasicServiceAnalysisType.CODIGO_FUENTE_MULTIPLE);
+			if (basicServiceForm.getDomain() != null && StringUtils.isNotEmpty(basicServiceForm.getDomain())) {
+				basicServiceForm.setAnalysisType(BasicServiceAnalysisType.MIXTO);
+			} else {
+				basicServiceForm.setAnalysisType(BasicServiceAnalysisType.CODIGO_FUENTE_MULTIPLE);
+			}
 		} else {
 			try {
 				String content = "";
@@ -272,7 +285,11 @@ public final class BasicServiceUtils {
 					content = new String(contentParameter.getBytes(StandardCharsets.ISO_8859_1.name()));
 				}
 				basicServiceForm.setContent(content);
-				basicServiceForm.setAnalysisType(BasicServiceAnalysisType.CODIGO_FUENTE);
+				if (basicServiceForm.getDomain() != null && StringUtils.isNotEmpty(basicServiceForm.getDomain())) {
+					basicServiceForm.setAnalysisType(BasicServiceAnalysisType.MIXTO);
+				} else {
+					basicServiceForm.setAnalysisType(BasicServiceAnalysisType.CODIGO_FUENTE);
+				}
 			} catch (Exception e) {
 				Logger.putLog("No se puede procesar la entrada del fichero", BasicServiceUtils.class, Logger.LOG_LEVEL_WARNING, e);
 			}
@@ -426,7 +443,7 @@ public final class BasicServiceUtils {
 		} else {
 			result = pmgr.getValue(CRAWLER_PROPERTIES, "basic.service.title.alternative");
 		}
-		return FileUtils.normalizeFileName(result);
+		return cleanTitle(FileUtils.normalizeFileName(result));
 	}
 
 	/**
@@ -470,5 +487,24 @@ public final class BasicServiceUtils {
 			Logger.putLog("Error al acceder al extraer el título del contenido HTML", BasicServiceUtils.class, Logger.LOG_LEVEL_WARNING, e);
 			return "";
 		}
+	}
+
+	/**
+	 * Cleaning title
+	 * 
+	 * @param title
+	 * 
+	 * @return Formatted title
+	 */
+	private static String cleanTitle(String title) {
+		String formattedTitle;
+		try {
+			formattedTitle = new String(title.getBytes("ISO-8859-1"), "UTF-8");
+			formattedTitle = Normalizer.normalize(formattedTitle, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+			formattedTitle = formattedTitle.replaceAll("[^a-zA-Z0-9]", "_");
+		} catch (UnsupportedEncodingException e) {
+			formattedTitle = title;
+		}
+		return formattedTitle;
 	}
 }

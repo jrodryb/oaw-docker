@@ -1135,6 +1135,10 @@ public interface Constants {
 	String FAILED_CHECKS = "failedChecks";
 	/** The menu. */
 	String MENU = "menu";
+	/** The submenu importar entidad. */
+	String SUBMENU_IMPORTAR = "menuImportar";
+	/** The submenu exportar entidad. */
+	String SUBMENU_EXPORTAR = "menuExportar";
 	/** The submenu. */
 	String SUBMENU = "submenu";
 	/** The menu password. */
@@ -1840,15 +1844,15 @@ public interface Constants {
 	/** The observatory graphic evolution 2 6 verification. */
 	String OBSERVATORY_GRAPHIC_EVOLUTION_2_6_VERIFICATION = "2.6";
 	/** The observatory graphic evolution 3 1 verification. */
-	String OBSERVATORY_GRAPHIC_EVOLUTION_3_1_VERIFICATION = "3.1";
+	String OBSERVATORY_GRAPHIC_EVOLUTION_3_1_VERIFICATION = "1";
 	/** The observatory graphic evolution 3 2 verification. */
-	String OBSERVATORY_GRAPHIC_EVOLUTION_3_2_VERIFICATION = "3.2";
+	String OBSERVATORY_GRAPHIC_EVOLUTION_3_2_VERIFICATION = "2";
 	/** The observatory graphic evolution 3 3 verification. */
-	String OBSERVATORY_GRAPHIC_EVOLUTION_3_3_VERIFICATION = "3.3";
+	String OBSERVATORY_GRAPHIC_EVOLUTION_3_3_VERIFICATION = "3";
 	/** The observatory graphic evolution 3 4 verification. */
-	String OBSERVATORY_GRAPHIC_EVOLUTION_3_4_VERIFICATION = "3.4";
+	String OBSERVATORY_GRAPHIC_EVOLUTION_3_4_VERIFICATION = "4";
 	/** The observatory graphic evolution 3 5 verification. */
-	String OBSERVATORY_GRAPHIC_EVOLUTION_3_5_VERIFICATION = "3.5";
+	String OBSERVATORY_GRAPHIC_EVOLUTION_3_5_VERIFICATION = "5";
 	/** The normativa une 2012. */
 	String NORMATIVA_UNE_2012 = "UNE-2012";
 	/** The normativa une 2012 b. */
@@ -1898,7 +1902,7 @@ public interface Constants {
 	/** The Constant OBSERVATORIO_ACCESIBILIDAD_SIN_ENLACES_ROTOS. */
 	String OBSERVATORIO_ACCESIBILIDAD_SIN_ENLACES_ROTOS = "Comprobaciones Accesibilidad (beta)";
 	/** The Constant OBSERVATORIO_UNE_EN2019. */
-	String OBSERVATORIO_UNE_EN2019 = "Seguimiento Simplificado UNE-EN301549:2019";
+	String OBSERVATORIO_UNE_EN2019 = "Seguimiento Simplificado UNE-EN 301549:2022";
 	/** The Constant OBSERVATORIO_UNE_UNE_EN2019_SIN_ENLACES_ROTOS. */
 	String OBSERVATORIO_UNE_UNE_EN2019_SIN_ENLACES_ROTOS = "Seguimiento Simplificado UNE-EN301549:2019(sin comprobar enlaces rotos)";
 	/** The Constant OBSERVATORIO_UNE_2012_VERSION_2. */
@@ -1924,4 +1928,8 @@ public interface Constants {
 	BaseColor BC_GRIS_MUY_CLARO = new BaseColor(245, 245, 245);
 	/** The observatory extra configuration list. */
 	String OBSERVATORY_EXTRA_CONFIGURATION_LIST = "extraConfigurationList";
+	/** Import entities */
+	String IMPORTAR_ENTIDADES = "importarEntidades";
+	/** Export entities */
+	String EXPORTAR_ENTIDADES = "exportarEntidades";
 }

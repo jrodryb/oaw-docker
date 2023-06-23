@@ -231,14 +231,19 @@ public final class BasicServiceExport {
 			try {
 				File parentFile = new File(reportFile).getParentFile();
 				zipFile(new File(parentFile + "/codigo_fuente.zip"), "codigo_fuente.zip", zos);
+				// ODT
+				File hallazgosFile = new File(parentFile + "/Informe Revision Accesibilidad - Hallazgos.odt");
+				if (hallazgosFile.exists()) {
+					zipFile(hallazgosFile, "Informe Revision Accesibilidad - Hallazgos.odt", zos);
+				}
 				// JSON WCAG-EM and ODS
 				if ("true".equalsIgnoreCase(depthReport)) {
 					// JSON
 					zipFile(new File(parentFile + "/wcagem-report.json"), "wcagem-report.json", zos);
 					// ODS
-					zipFile(new File(parentFile + "/Informe_Revision_Profunidad_v1.ods"), "Informe_Revision_Profunidad_v1.ods", zos);
+					zipFile(new File(parentFile + "/Informe Revision Accesibilidad - Sitios web.ods"), "Informe Revision Accesibilidad - Sitios web.ods", zos);
 					// XLSX
-					zipFile(new File(parentFile + "/Informe_Revision_Profunidad_v1.xlsx"), "Informe_Revision_Profunidad_v1.xlsx", zos);
+					zipFile(new File(parentFile + "/Informe Revision Accesibilidad - Sitios web.xlsx"), "Informe Revision Accesibilidad - Sitios web.xlsx", zos);
 				}
 				zipFile(new File(parentFile + "/pagina_accesibilidad.html"), "pagina_accesibilidad.html", zos);
 			} catch (Exception e) {
@@ -286,6 +291,7 @@ public final class BasicServiceExport {
 			while ((length = fis.read(bytes)) >= 0) {
 				zipOut.write(bytes, 0, length);
 			}
+			zipOut.closeEntry();
 			fis.close();
 		}
 	}

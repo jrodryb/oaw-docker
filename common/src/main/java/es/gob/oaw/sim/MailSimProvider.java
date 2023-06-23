@@ -1,12 +1,10 @@
 package es.gob.oaw.sim;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
@@ -63,7 +61,7 @@ public class MailSimProvider implements MailProvider {
 				Logger.putLog(String.format("Error SIM response code: %s, text: %s, details: %s", respuestaStatus.getStatusCode(), respuestaStatus.getStatusText(), respuestaStatus.getDetails()),
 						MailSimProvider.class, Logger.LOG_LEVEL_ERROR);
 			}
-		} catch (MalformedURLException e) {
+		} catch (Exception e) {
 			Logger.putLog(String.format("Invalid SIM WSDL URL value of %s", pmgr.getValue(MAIL_PROPERTIES, "sim.mailservice.wsdl.url")), MailSimProvider.class, Logger.LOG_LEVEL_ERROR);
 			throw new MailException(e.getMessage(), e.getCause());
 		}
@@ -169,15 +167,13 @@ public class MailSimProvider implements MailProvider {
 		final DestinatariosMail destinatariosMail = factory.createDestinatariosMail();
 		final DestinatarioMail destinatarioMail = factory.createDestinatarioMail();
 		final Destinatarios destinatarios = factory.createDestinatarios();
-		final Iterator<String> mailToiterator = mailTo.iterator();
-		if (mailToiterator.hasNext()) {
-			destinatarios.setTo(mailToiterator.next());
-		}
+		String emails = String.join(";", mailTo);
+		destinatarios.setTo(emails);
+		Logger.putLog("Mail to: " + emails, MailSimProvider.class, Logger.LOG_LEVEL_INFO);
 		if (mailToCco != null) {
-			final Iterator<String> mailToCcoiterator = mailToCco.iterator();
-			if (mailToCcoiterator.hasNext()) {
-				destinatarios.setBcc(mailToCcoiterator.next());
-			}
+			emails = String.join(";", mailToCco);
+			destinatarios.setBcc(emails);
+			Logger.putLog("Mail to cco: " + emails, MailSimProvider.class, Logger.LOG_LEVEL_INFO);
 		}
 		destinatarioMail.setDestinatarios(destinatarios);
 		destinatariosMail.getDestinatarioMail().add(destinatarioMail);

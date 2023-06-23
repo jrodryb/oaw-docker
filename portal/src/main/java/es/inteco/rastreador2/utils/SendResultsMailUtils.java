@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -117,7 +118,7 @@ public final class SendResultsMailUtils {
 				ura.setSendDate(null);
 				// Find Dependency
 				DependenciaForm dependency = DependenciaDAO.findById(c, ura.getUraId());
-				String xlsxFilePath = annexPath + "/Dependencias/" + dependency.getName() + ".xlsx";
+				String xlsxFilePath = annexPath + "/Dependencias_v2/" + dependency.getName() + ".xlsx";
 				String pdfZipPath = pdfZipsPath.get(PDFUtils.formatSeedName(dependency.getName()));
 				if (!StringUtils.isEmpty(pdfZipPath) && !StringUtils.isEmpty(xlsxFilePath)) {
 					File xlsx = new File(xlsxFilePath);
@@ -284,7 +285,10 @@ public final class SendResultsMailUtils {
 	 * @return the pdfs
 	 */
 	private static Map<String, String> getPdfs(final Long idObservatory, final Long idObservatoryExecution, final List<FulFilledCrawling> fulfilledCrawlings) {
+		int i = 0;
 		for (FulFilledCrawling fulfilledCrawling : fulfilledCrawlings) {
+			i++;
+			Logger.putLog("Generando PDF: " + i + "/" + fulfilledCrawlings.size() + " - " + fulfilledCrawling.getSeed().getNombre(), SendResultsMailUtils.class, Logger.LOG_LEVEL_ERROR);
 			buildPdf(idObservatory, idObservatoryExecution, fulfilledCrawling.getId(), fulfilledCrawling.getIdCrawling());
 		}
 		PropertiesManager pmgr = new PropertiesManager();
@@ -318,14 +322,25 @@ public final class SendResultsMailUtils {
 		// Email subject
 		final MailService mailService = new MailService();
 		// Get emails from URA
-		List<String> mailsTo = new LinkedList<String>(Arrays.asList(ura.getEmails().split(";")));
-		// TODO Check if can send as cco
-		List<String> mailsToCco = new ArrayList<>();
-		if (!StringUtils.isEmpty(cco)) {
-			mailsToCco.add(cco);
+		List<String> mailsTo = new LinkedList<String>();
+		if (!StringUtils.isEmpty(ura.getEmails())) {
+			mailsTo = new LinkedList<String>(Arrays.asList(StringUtils.split(ura.getEmails(), ";,")));
 		}
+		// Check if can send as cco
+		List<String> mailsToCco = new LinkedList<String>();
+		if (!StringUtils.isEmpty(cco)) {
+			mailsToCco = new LinkedList<String>(Arrays.asList(StringUtils.split(cco, ";,")));
+		}
+		List<String> checkMails = new LinkedList<String>();
+		checkMails.addAll(mailsTo);
+		checkMails.addAll(mailsToCco);
 		try {
-			if (ura.getSendAuto() && !StringUtils.isEmpty(ura.getEmails())) {
+			if (StringUtils.isEmpty(ura.getEmails()) || !validateEmails(checkMails)) {
+				Logger.putLog("No se envía correo a la URA: " + ura.getName(), SendResultsMailUtils.class, Logger.LOG_LEVEL_ERROR);
+				uraCustom.setSendError("Comprobar correo/s erróneo/s : " + String.join(";", checkMails));
+				uraCustom.setSendDate(new Date());
+				uraCustom.setSend(false);
+			} else if (ura.getSendAuto() && !StringUtils.isEmpty(ura.getEmails())) {
 				Logger.putLog("Enviando correo a la URA: " + ura.getName(), SendResultsMailUtils.class, Logger.LOG_LEVEL_ERROR);
 				if (!StringUtils.isEmpty(ura.getAcronym())) {
 					mailService.sendMail(mailsTo, mailsToCco, "[" + ura.getAcronym() + "] " + emailSubject, mailBody, true);
@@ -419,7 +434,7 @@ public final class SendResultsMailUtils {
 	 * @return the calendar
 	 * @throws SQLException the SQL exception
 	 */
-	private static Calendar calculateExpirationDate(Connection c) throws SQLException {
+	private static Calendar calculateExpirationDate(Connection c) throws Exception {
 		int days = ObservatorioDAO.getFileExpirationFromConfig(c);
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
@@ -569,5 +584,35 @@ public final class SendResultsMailUtils {
 		digitRule.setNumberOfCharacters(2);
 		String password = gen.generatePassword(10, lowerCaseRule, upperCaseRule, digitRule);
 		return password;
+	}
+
+	/**
+	 * Email list validation
+	 * 
+	 * @param emailList
+	 * @return Emails validation
+	 */
+	private static boolean validateEmails(List<String> emailList) {
+		for (String email : emailList) {
+			if (!validateEmail(email)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Email validation
+	 * 
+	 * @param email
+	 * @return Email validation
+	 */
+	private static boolean validateEmail(String email) {
+		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+		Pattern pattern = Pattern.compile(emailRegex);
+		if (pattern.matcher(email).matches()) {
+			return true;
+		}
+		return false;
 	}
 }

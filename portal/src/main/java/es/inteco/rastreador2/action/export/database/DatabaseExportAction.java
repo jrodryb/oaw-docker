@@ -23,6 +23,7 @@ import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,7 +60,7 @@ import es.inteco.rastreador2.dao.observatorio.ObservatorioDAO;
 import es.inteco.rastreador2.export.database.form.ComparisionForm;
 import es.inteco.rastreador2.manager.BaseManager;
 import es.inteco.rastreador2.manager.ObservatoryExportManager;
-import es.inteco.rastreador2.manager.export.database.DatabaseExportManager;
+import es.inteco.rastreador2.manager.exportation.database.DatabaseExportManager;
 import es.inteco.rastreador2.pdf.ExportAction;
 import es.inteco.rastreador2.pdf.utils.ZipUtils;
 import es.inteco.rastreador2.utils.ActionUtils;
@@ -145,7 +146,7 @@ public class DatabaseExportAction extends Action {
 			}
 		}
 		// Export all??
-		export(mapping, request);
+//		export(mapping, request);
 		return getAnnexes(mapping, request, response, tagsToFilter, exObsIds, comparision, async);
 	}
 
@@ -161,6 +162,11 @@ public class DatabaseExportAction extends Action {
 		final Long idObservatory = Long.valueOf(request.getParameter(Constants.ID_OBSERVATORIO));
 		final Long idExObservatory = Long.valueOf(request.getParameter(Constants.ID_EX_OBS));
 		final Long idCartucho = Long.valueOf(request.getParameter(Constants.ID_CARTUCHO));
+		final boolean originAnnexes = true;
+		String[] tagsToFilter = null;
+		if (request.getParameter("tagsFixed") != null && !StringUtils.isEmpty(request.getParameter("tagsFixed"))) {
+			tagsToFilter = request.getParameter("tagsFixed").split(",");
+		}
 		try (Connection c = DataBaseManager.getConnection()) {
 			final ObservatorioRealizadoForm fulfilledObservatory = ObservatorioDAO.getFulfilledObservatory(c, idObservatory, idExObservatory);
 			if (CartuchoDAO.isCartuchoAccesibilidad(c, fulfilledObservatory.getCartucho().getId())) {
@@ -170,14 +176,14 @@ public class DatabaseExportAction extends Action {
 				if (Constants.NORMATIVA_ACCESIBILIDAD.equalsIgnoreCase(application)) {
 					for (ObservatorioRealizadoForm obsRealizado : observatoriesList) {
 						if (ObservatoryExportManager.getObservatory(obsRealizado.getId()) == null) {
-							exportResultadosAccesibilidad(PropertyMessageResources.getMessageResources(Constants.MESSAGE_RESOURCES_ACCESIBILIDAD), idObservatory, c, obsRealizado);
+							exportResultadosAccesibilidad(PropertyMessageResources.getMessageResources(Constants.MESSAGE_RESOURCES_ACCESIBILIDAD), idObservatory, c, obsRealizado, originAnnexes,
+									tagsToFilter);
 						}
 					}
 				} else {
 					for (ObservatorioRealizadoForm obsRealizado : observatoriesList) {
-						if (ObservatoryExportManager.getObservatory(obsRealizado.getId()) == null) {
-							exportResultadosAccesibilidad(CrawlerUtils.getResources(request), idObservatory, c, obsRealizado);
-						}
+						// always export to prevent changes
+						exportResultadosAccesibilidad(CrawlerUtils.getResources(request), idObservatory, c, obsRealizado, originAnnexes, tagsToFilter);
 					}
 				}
 			} else {
@@ -192,23 +198,92 @@ public class DatabaseExportAction extends Action {
 	}
 
 	/**
+	 * Export Async without tags to filter
+	 *
+	 * @param idObservatory    the id observatory
+	 * @param idExObservatory  the id ex observatory
+	 * @param idCartucho       the id cartucho
+	 * @param messageResources the message resources
+	 * @param originAnnexes    the origin
+	 * @throws Exception the exception
+	 */
+	private void exportAsync(final Long idObservatory, final Long idExObservatory, final Long idCartucho, final MessageResources messageResources, final boolean originAnnexes) throws Exception {
+		exportAsync(idObservatory, idExObservatory, idCartucho, messageResources, originAnnexes, null);
+	}
+
+	/**
+	 * Export Async tags to filter
+	 *
+	 * @param idObservatory    the id observatory
+	 * @param idExObservatory  the id ex observatory
+	 * @param idCartucho       the id cartucho
+	 * @param messageResources the message resources
+	 * @param originAnnexes    the origin
+	 * @param tags             tags
+	 * @throws Exception the exception
+	 */
+	private void exportAsync(final Long idObservatory, final Long idExObservatory, final Long idCartucho, final MessageResources messageResources, final boolean originAnnexes,
+			final String[] tagsToFilterFixed) throws Exception {
+		try (Connection c = DataBaseManager.getConnection()) {
+			final ObservatorioRealizadoForm fulfilledObservatory = ObservatorioDAO.getFulfilledObservatory(c, idObservatory, idExObservatory);
+			if (CartuchoDAO.isCartuchoAccesibilidad(c, fulfilledObservatory.getCartucho().getId())) {
+				final String application = CartuchoDAO.getApplication(c, idCartucho);
+				final List<ObservatorioRealizadoForm> observatoriesList = ObservatorioDAO.getFulfilledObservatories(c, idObservatory, Constants.NO_PAGINACION, fulfilledObservatory.getFecha(), false,
+						null);
+				if (Constants.NORMATIVA_ACCESIBILIDAD.equalsIgnoreCase(application)) {
+					for (ObservatorioRealizadoForm obsRealizado : observatoriesList) {
+						if (ObservatoryExportManager.getObservatory(obsRealizado.getId()) == null) {
+							exportResultadosAccesibilidad(PropertyMessageResources.getMessageResources(Constants.MESSAGE_RESOURCES_ACCESIBILIDAD), idObservatory, c, obsRealizado, originAnnexes);
+						}
+					}
+				} else {
+					for (ObservatorioRealizadoForm obsRealizado : observatoriesList) {
+						exportResultadosAccesibilidad(messageResources, idObservatory, c, obsRealizado, originAnnexes, tagsToFilterFixed);
+					}
+				}
+			}
+		} catch (Exception e) {
+			Logger.putLog("Error al exportar los resultados del observatorio: ", DatabaseExportAction.class, Logger.LOG_LEVEL_ERROR, e);
+			throw e;
+		}
+	}
+
+	/**
 	 * Export resultados accesibilidad.
 	 *
 	 * @param messageResources     the message resources
 	 * @param idObservatory        the id observatory
 	 * @param c                    the c
 	 * @param fulfilledObservatory the fulfilled observatory
+	 * @param originAnnexes        the origin
 	 * @throws Exception the exception
 	 */
-	private void exportResultadosAccesibilidad(final MessageResources messageResources, Long idObservatory, Connection c, ObservatorioRealizadoForm fulfilledObservatory) throws Exception {
+	private void exportResultadosAccesibilidad(final MessageResources messageResources, Long idObservatory, Connection c, ObservatorioRealizadoForm fulfilledObservatory, boolean originAnnexes)
+			throws Exception {
+		exportResultadosAccesibilidad(messageResources, idObservatory, c, fulfilledObservatory, originAnnexes, null);
+	}
+
+	/**
+	 * Export resultados accesibilidad.
+	 *
+	 * @param messageResources     the message resources
+	 * @param idObservatory        the id observatory
+	 * @param c                    the c
+	 * @param fulfilledObservatory the fulfilled observatory
+	 * @param originAnnexes        the origin
+	 * @param tags                 tags
+	 * @throws Exception the exception
+	 */
+	private void exportResultadosAccesibilidad(final MessageResources messageResources, Long idObservatory, Connection c, ObservatorioRealizadoForm fulfilledObservatory, boolean originAnnexes,
+			String[] tagsToFilter) throws Exception {
 		Observatory observatory = DatabaseExportManager.getObservatory(fulfilledObservatory.getId());
 		if (observatory == null) {
 			Logger.putLog("Generando exportación: idObs: " + idObservatory + " - idExObs: " + fulfilledObservatory.getId(), DatabaseExportAction.class, Logger.LOG_LEVEL_ERROR);
 			// Información general de la ejecución del Observatorio
-			observatory = DatabaseExportUtils.getObservatoryInfo(messageResources, fulfilledObservatory.getId());
+			observatory = DatabaseExportUtils.getObservatoryInfo(messageResources, fulfilledObservatory.getId(), originAnnexes, tagsToFilter);
 			final List<CategoriaForm> categories = ObservatorioDAO.getObservatoryCategories(c, idObservatory);
 			for (CategoriaForm categoriaForm : categories) {
-				final Category category = DatabaseExportUtils.getCategoryInfo(messageResources, categoriaForm, observatory);
+				final Category category = DatabaseExportUtils.getCategoryInfo(messageResources, categoriaForm, observatory, originAnnexes, tagsToFilter);
 				observatory.getCategoryList().add(category);
 			}
 			final ObservatorioRealizadoForm observatorioRealizadoForm = ObservatorioDAO.getFulfilledObservatory(c, idObservatory, fulfilledObservatory.getId());
@@ -216,8 +291,9 @@ public class DatabaseExportAction extends Action {
 			observatory.setDate(new Timestamp(observatorioRealizadoForm.getFecha().getTime()));
 			BaseManager.save(observatory);
 		} else {
+			Logger.putLog("Borrando exportación previa: idObs: " + idObservatory + " - idExObs: " + fulfilledObservatory.getId(), DatabaseExportAction.class, Logger.LOG_LEVEL_ERROR);
 			BaseManager.delete(observatory);
-			exportResultadosAccesibilidad(messageResources, idObservatory, c, fulfilledObservatory);
+			exportResultadosAccesibilidad(messageResources, idObservatory, c, fulfilledObservatory, originAnnexes);
 		}
 	}
 
@@ -263,6 +339,7 @@ public class DatabaseExportAction extends Action {
 			final Long idObs = Long.valueOf(request.getParameter(Constants.ID_OBSERVATORIO));
 			final Long idOperation = System.currentTimeMillis();
 			final Long idCartucho = Long.valueOf(request.getParameter(Constants.ID_CARTUCHO));
+			final boolean originAnnexes = true;
 			String[] tagsToFilterFixed = null;
 			if (request.getParameter("tagsFixed") != null && !StringUtils.isEmpty(request.getParameter("tagsFixed"))) {
 				tagsToFilterFixed = request.getParameter("tagsFixed").split(",");
@@ -278,16 +355,44 @@ public class DatabaseExportAction extends Action {
 			}
 			if (isAsync) {
 				final Connection c = DataBaseManager.getConnection();
-				String url = request.getRequestURL().toString();
-				String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
 				final DatosForm userData = LoginDAO.getUserDataByName(c, request.getSession().getAttribute(Constants.USER).toString());
 				DataBaseManager.closeConnection(c);
-				final AnnexGeneratorThread annexGeneratorThread = new AnnexGeneratorThread(resources, idObs, idObsExecution, idOperation, tagsToFilter, tagsToFilterFixed, exObsIds, comparision,
-						userData.getEmail(), baseURL);
-				annexGeneratorThread.start();
+				final String url = request.getRequestURL().toString();
+				final String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
+				Executors.newSingleThreadExecutor().execute(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							final Long idObsExecution = Long.valueOf(request.getParameter(Constants.ID_EX_OBS));
+							final Long idObs = Long.valueOf(request.getParameter(Constants.ID_OBSERVATORIO));
+							final Long idOperation = System.currentTimeMillis();
+							final Long idCartucho = Long.valueOf(request.getParameter(Constants.ID_CARTUCHO));
+							String[] tagsToFilterFixed = null;
+							if (request.getParameter("tagsFixed") != null && !StringUtils.isEmpty(request.getParameter("tagsFixed"))) {
+								tagsToFilterFixed = request.getParameter("tagsFixed").split(",");
+							}
+							MessageResources resources = CrawlerUtils.getResources(request);
+							final Connection connection = DataBaseManager.getConnection();
+							final String application = CartuchoDAO.getApplication(connection, idCartucho);
+							DataBaseManager.closeConnection(connection);
+							if (Constants.NORMATIVA_UNE_EN2019.equalsIgnoreCase(application)) {
+								resources = MessageResources.getMessageResources(Constants.MESSAGE_RESOURCES_UNE_EN2019);
+							} else if (Constants.NORMATIVA_ACCESIBILIDAD.equalsIgnoreCase(application)) {
+								resources = MessageResources.getMessageResources(Constants.MESSAGE_RESOURCES_ACCESIBILIDAD);
+							}
+							exportAsync(idObs, idObsExecution, idCartucho, resources, originAnnexes, tagsToFilterFixed);
+							final AnnexGeneratorThread annexGeneratorThread = new AnnexGeneratorThread(resources, idObs, idObsExecution, idOperation, tagsToFilter, tagsToFilterFixed, exObsIds,
+									comparision, userData.getEmail(), baseURL);
+							annexGeneratorThread.start();
+						} catch (Exception e) {
+							Logger.putLog("Error", this.getClass(), Logger.LOG_LEVEL_ERROR, e);
+						}
+					}
+				});
 				request.setAttribute("EMAIL", userData.getEmail());
 				return mapping.findForward("async");
 			} else {
+				export(mapping, request);
 				AnnexUtils.generateAllAnnex(resources, idObs, idObsExecution, idOperation, tagsToFilter, tagsToFilterFixed, exObsIds, comparision);
 				final PropertiesManager pmgr = new PropertiesManager();
 				final String exportPath = pmgr.getValue(CRAWLER_PROPERTIES, "export.annex.path");
