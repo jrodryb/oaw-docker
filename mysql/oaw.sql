@@ -254,7 +254,7 @@ CREATE TABLE `complejidades_lista` (
 
 LOCK TABLES `complejidades_lista` WRITE;
 /*!40000 ALTER TABLE `complejidades_lista` DISABLE KEYS */;
-INSERT INTO `complejidades_lista` VALUES (1,'Baja',2,2),(2,'Media',4,8),(3,'Alta',4,11);
+INSERT INTO `complejidades_lista` VALUES (1,'Baja',2,2),(2,'Media',4,8),(3,'Alta',4,11),(4,'Todas',5,100);
 /*!40000 ALTER TABLE `complejidades_lista` ENABLE KEYS */;
 UNLOCK TABLES;
 
