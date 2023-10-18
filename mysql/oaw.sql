@@ -252,7 +252,7 @@ CREATE TABLE `complejidades_lista` (
 
 LOCK TABLES `complejidades_lista` WRITE;
 /*!40000 ALTER TABLE `complejidades_lista` DISABLE KEYS */;
-INSERT INTO `complejidades_lista` VALUES (1,'Baja',2,2),(2,'Media',4,8),(3,'Alta',4,11);
+INSERT INTO `complejidades_lista` VALUES (1,'Baja',2,2),(2,'Media',4,8),(3,'Alta',4,11),(4,'Todas',5,100);
 /*!40000 ALTER TABLE `complejidades_lista` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1441,7 +1441,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'username','password-md5','Nombre','Apellidos','Departamento','email@mail.com');
+INSERT INTO `usuario` VALUES (1,'username','1a1dc91c907325c69271ddf0c944bc72','Nombre','Apellidos','Departamento','email@mail.com');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
