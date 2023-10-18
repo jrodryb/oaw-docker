@@ -1,0 +1,50 @@
+version: "3"
+services:
+
+  tomcat:
+    image: tomcat:7-jdk8-openjdk
+    ports:
+      - "8888:8080"
+    networks:
+      - oawnet
+    depends_on:
+      - mysql
+      - mailhog
+    volumes:
+      - ./tomcat:/root/tomcat
+      - ./portal/target/oaw.war:/tmp/oaw.war:ro
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_DATABASE=oaw
+      - MYSQL_ROOT_PASSWORD=root
+      - WAIT_HOSTS=mysql:3306
+      - WAIT_AFTER=5
+    working_dir: /root/tomcat
+    command: sh -c "./wait.sh && ./start.sh"
+
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "3333:3306"
+    networks:
+      - oawnet
+    volumes:
+      #Init scripts location (see https://hub.docker.com/_/mysql?tab=description)
+      - ./mysql:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_DATABASE=oaw
+      - MYSQL_ROOT_PASSWORD=root
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    restart: always
+    ports:
+      #- 1025:1025 #smtp port
+      - 8025:8025 #web port
+    networks:
+      - oawnet
+    #Stop verbose logging (see https://github.com/mailhog/MailHog/issues/56#issuecomment-291968642)
+    entrypoint: ["/bin/sh", "-c", "MailHog &>/dev/null"]
+
+networks:
+  oawnet:

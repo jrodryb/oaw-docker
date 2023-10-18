@@ -100,6 +100,21 @@
 
 	<profiles>
 		<profile>
+			<id>oaw</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<profile.name>oaw</profile.name>
+				<deploy.path>/usr/local/tomcat/webapps/oaw</deploy.path>
+				<files.path>/tmp/oaw</files.path>
+				<jdk.path>/usr/local/openjdk-8</jdk.path>
+				<mail.smtp.host>mailhog</mail.smtp.host>
+				<mail.smtp.port>1025</mail.smtp.port>
+			</properties>
+		</profile>
+
+		<profile>
 			<id>desarrollo-windows</id>
 			<activation>
 				<activeByDefault>false</activeByDefault>
