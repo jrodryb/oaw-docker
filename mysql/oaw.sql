@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.62, for Win64 (AMD64)
 --
 -- Host: localhost    Database: oaw
 -- ------------------------------------------------------
@@ -7,7 +7,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,13 +21,13 @@
 
 DROP TABLE IF EXISTS `ambitos_lista`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ambitos_lista` (
   `id_ambito` bigint NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   `descripcion` varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`id_ambito`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,27 +46,27 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `basic_service`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `basic_service` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `usr` varchar(250) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `language` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `domain` varchar(2048) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `usr` varchar(250) COLLATE utf8_bin DEFAULT NULL,
+  `language` varchar(10) COLLATE utf8_bin DEFAULT NULL,
+  `domain` varchar(2048) COLLATE utf8_bin DEFAULT NULL,
+  `email` varchar(100) COLLATE utf8_bin DEFAULT NULL,
   `depth` int DEFAULT NULL,
   `width` int DEFAULT NULL,
-  `report` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `report` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `date` datetime DEFAULT NULL,
-  `status` varchar(25) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL DEFAULT 'launched',
+  `status` varchar(25) COLLATE utf8_bin NOT NULL DEFAULT 'launched',
   `send_date` datetime DEFAULT NULL,
   `scheduling_date` datetime DEFAULT NULL,
-  `analysis_type` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `analysis_type` varchar(20) COLLATE utf8_bin NOT NULL,
   `in_directory` tinyint(1) NOT NULL DEFAULT '0',
   `register_result` tinyint(1) NOT NULL DEFAULT '0',
-  `complexity` varchar(128) COLLATE utf8mb3_bin DEFAULT NULL,
-  `filename` varchar(1024) COLLATE utf8mb3_bin DEFAULT NULL,
+  `complexity` varchar(128) COLLATE utf8_bin DEFAULT NULL,
+  `filename` varchar(1024) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -84,17 +84,17 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `cartucho`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cartucho` (
   `id_cartucho` bigint NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `nombre` varchar(100) COLLATE utf8_bin NOT NULL,
   `instalado` tinyint(1) NOT NULL,
-  `aplicacion` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `aplicacion` varchar(100) COLLATE utf8_bin NOT NULL,
   `numrastreos` int NOT NULL,
   `numhilos` int NOT NULL,
   `id_guideline` int NOT NULL,
   PRIMARY KEY (`id_cartucho`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -113,13 +113,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `cartucho_rastreo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cartucho_rastreo` (
   `id_cartucho` bigint NOT NULL,
   `id_rastreo` bigint NOT NULL,
   PRIMARY KEY (`id_cartucho`,`id_rastreo`),
   KEY `id_rastreo` (`id_rastreo`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,13 +137,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `categoria`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `categoria` (
   `id_categoria` bigint NOT NULL AUTO_INCREMENT,
-  `categoria` varchar(256) COLLATE utf8mb3_bin DEFAULT NULL,
+  `categoria` varchar(256) COLLATE utf8_bin DEFAULT NULL,
   `umbral` double NOT NULL,
   PRIMARY KEY (`id_categoria`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -161,7 +161,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `categoria_termino`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `categoria_termino` (
   `id_categoria` bigint NOT NULL,
   `id_termino` bigint NOT NULL,
@@ -169,7 +169,7 @@ CREATE TABLE `categoria_termino` (
   `porcentaje_normalizado` double NOT NULL,
   PRIMARY KEY (`id_categoria`,`id_termino`),
   KEY `id_termino` (`id_termino`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,14 +187,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `categorias_lista`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `categorias_lista` (
   `id_categoria` bigint NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `nombre` varchar(50) COLLATE utf8_bin NOT NULL,
   `orden` int NOT NULL,
-  `clave` varchar(1024) COLLATE utf8mb3_bin DEFAULT NULL,
+  `clave` varchar(1024) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id_categoria`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -212,12 +212,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `clasificacion_etiqueta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `clasificacion_etiqueta` (
   `id_clasificacion` bigint NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   PRIMARY KEY (`id_clasificacion`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -236,14 +236,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `complejidades_lista`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `complejidades_lista` (
   `id_complejidad` bigint NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   `profundidad` bigint NOT NULL,
   `amplitud` bigint NOT NULL,
   PRIMARY KEY (`id_complejidad`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -262,10 +262,10 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `cuenta_cliente`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cuenta_cliente` (
   `id_cuenta` bigint NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `nombre` varchar(100) COLLATE utf8_bin NOT NULL,
   `dominio` bigint NOT NULL,
   `id_periodicidad` bigint NOT NULL,
   `profundidad` int NOT NULL DEFAULT '0',
@@ -284,7 +284,7 @@ CREATE TABLE `cuenta_cliente` (
   KEY `lista_rastreable` (`lista_rastreable`),
   KEY `lista_no_rastreable` (`lista_no_rastreable`),
   KEY `id_language` (`id_language`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -302,13 +302,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `cuenta_cliente_cartucho`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cuenta_cliente_cartucho` (
   `id_cuenta` bigint NOT NULL,
   `id_cartucho` bigint NOT NULL,
   PRIMARY KEY (`id_cuenta`,`id_cartucho`),
   KEY `id_cartucho` (`id_cartucho`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -326,13 +326,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `cuenta_cliente_usuario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cuenta_cliente_usuario` (
   `id_cuenta` bigint NOT NULL,
   `id_usuario` bigint NOT NULL,
   PRIMARY KEY (`id_cuenta`,`id_usuario`),
   KEY `id_usuario` (`id_usuario`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -350,13 +350,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `enlaces_rotos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enlaces_rotos` (
   `id_rastreo_realizado` bigint NOT NULL,
-  `url` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `url` varchar(255) COLLATE utf8_bin NOT NULL,
   `num_enlaces` int NOT NULL,
   PRIMARY KEY (`id_rastreo_realizado`,`url`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -374,14 +374,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `etiqueta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `etiqueta` (
   `id_etiqueta` bigint NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   `id_clasificacion` bigint NOT NULL,
   PRIMARY KEY (`id_etiqueta`),
   UNIQUE KEY `nombre` (`nombre`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -399,10 +399,10 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `export_aspect_score`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `export_aspect_score` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `aspect` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `aspect` varchar(255) COLLATE utf8_bin NOT NULL,
   `score` decimal(19,2) NOT NULL,
   `idCategory` bigint DEFAULT NULL,
   `idExecution` bigint DEFAULT NULL,
@@ -417,7 +417,7 @@ CREATE TABLE `export_aspect_score` (
   KEY `FK39330E96BBF2859D` (`idCategory`),
   KEY `FK39330E96B29C2AF` (`idSite`),
   KEY `FK39330E965BDB7C31` (`idExecution`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -435,11 +435,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `export_category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `export_category` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `idCrawlerCategory` bigint DEFAULT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `name` varchar(255) COLLATE utf8_bin NOT NULL,
   `numA` int NOT NULL,
   `numAA` int NOT NULL,
   `numNV` int NOT NULL,
@@ -450,7 +450,7 @@ CREATE TABLE `export_category` (
   PRIMARY KEY (`id`),
   KEY `FKA67C529B3ADA411` (`idExecution`),
   KEY `FKA67C5295BDB7C31` (`idExecution`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -468,16 +468,16 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `export_observatory`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `export_observatory` (
   `idExecution` bigint NOT NULL,
   `date` datetime NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `name` varchar(255) COLLATE utf8_bin NOT NULL,
   `numA` int NOT NULL,
   `numAA` int NOT NULL,
   `numNV` int NOT NULL,
   PRIMARY KEY (`idExecution`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -495,19 +495,19 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `export_page`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `export_page` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `level` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `level` varchar(255) COLLATE utf8_bin NOT NULL,
   `score` decimal(19,2) NOT NULL,
   `scoreLevel1` decimal(19,2) NOT NULL,
   `scoreLevel2` decimal(19,2) NOT NULL,
-  `url` varchar(2050) COLLATE utf8mb3_bin DEFAULT NULL,
+  `url` varchar(2050) COLLATE utf8_bin DEFAULT NULL,
   `idSite` bigint NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK8322383A8342B6CF` (`idSite`),
   KEY `FK8322383AB29C2AF` (`idSite`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -525,12 +525,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `export_site`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `export_site` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `idCrawlerSeed` bigint DEFAULT NULL,
-  `level` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `level` varchar(255) COLLATE utf8_bin NOT NULL,
+  `name` varchar(255) COLLATE utf8_bin NOT NULL,
   `numA` int NOT NULL,
   `numAA` int NOT NULL,
   `numNV` int NOT NULL,
@@ -538,11 +538,11 @@ CREATE TABLE `export_site` (
   `scoreLevel1` decimal(19,2) DEFAULT NULL,
   `scoreLevel2` decimal(19,2) DEFAULT NULL,
   `idCategory` bigint NOT NULL,
-  `compliance` varchar(32) COLLATE utf8mb3_bin DEFAULT NULL,
+  `compliance` varchar(32) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK8323B4F2D83469BD` (`idCategory`),
   KEY `FK8323B4F2BBF2859D` (`idCategory`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -560,12 +560,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `export_verification_modality`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `export_verification_modality` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `failPercentage` decimal(19,2) NOT NULL,
   `passPercentage` decimal(19,2) NOT NULL,
-  `verification` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `verification` varchar(255) COLLATE utf8_bin NOT NULL,
   `idCategory` bigint DEFAULT NULL,
   `idExecution` bigint DEFAULT NULL,
   `idSite` bigint DEFAULT NULL,
@@ -576,7 +576,7 @@ CREATE TABLE `export_verification_modality` (
   KEY `FKC9F9E23ABBF2859D` (`idCategory`),
   KEY `FKC9F9E23AB29C2AF` (`idSite`),
   KEY `FKC9F9E23A5BDB7C31` (`idExecution`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -594,17 +594,17 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `export_verification_page`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `export_verification_page` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `modality` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `modality` varchar(255) COLLATE utf8_bin NOT NULL,
   `value` int DEFAULT NULL,
-  `verification` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `verification` varchar(255) COLLATE utf8_bin NOT NULL,
   `idPage` bigint DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK724BD668833FBD5F` (`idPage`),
   KEY `FK724BD668B26C93F` (`idPage`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -622,11 +622,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `export_verification_score`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `export_verification_score` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `score` decimal(19,2) DEFAULT NULL,
-  `verification` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `verification` varchar(255) COLLATE utf8_bin NOT NULL,
   `idCategory` bigint DEFAULT NULL,
   `idExecution` bigint DEFAULT NULL,
   `idSite` bigint DEFAULT NULL,
@@ -637,7 +637,7 @@ CREATE TABLE `export_verification_score` (
   KEY `FKD75A45D9BBF2859D` (`idCategory`),
   KEY `FKD75A45D9B29C2AF` (`idSite`),
   KEY `FKD75A45D95BDB7C31` (`idExecution`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -655,13 +655,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `languages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `languages` (
   `id_language` bigint NOT NULL AUTO_INCREMENT,
-  `key_name` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `codice` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `key_name` varchar(45) COLLATE utf8_bin NOT NULL,
+  `codice` varchar(45) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id_language`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -680,27 +680,27 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `lista`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lista` (
   `id_lista` bigint NOT NULL AUTO_INCREMENT,
   `id_tipo_lista` bigint NOT NULL,
-  `nombre` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `lista` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `nombre` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `lista` text COLLATE utf8_bin NOT NULL,
   `id_categoria` bigint DEFAULT NULL,
-  `acronimo` varchar(25) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `acronimo` varchar(25) COLLATE utf8_bin DEFAULT NULL,
   `activa` tinyint(1) DEFAULT '1',
   `in_directory` tinyint(1) NOT NULL DEFAULT '0',
-  `dependencia` varchar(512) COLLATE utf8mb3_bin DEFAULT NULL,
+  `dependencia` varchar(512) COLLATE utf8_bin DEFAULT NULL,
   `eliminar` bigint NOT NULL DEFAULT '0',
   `id_complejidad` bigint DEFAULT NULL,
   `id_ambito` bigint DEFAULT NULL,
-  `observaciones` varchar(1024) COLLATE utf8mb3_bin DEFAULT NULL,
+  `observaciones` varchar(1024) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id_lista`),
   UNIQUE KEY `id_lista` (`id_lista`),
   KEY `id_tipo_lista` (`id_tipo_lista`),
   KEY `id_categoria` (`id_categoria`),
   KEY `id_ambito` (`id_ambito`)
-) ENGINE=MyISAM AUTO_INCREMENT=535 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM AUTO_INCREMENT=535 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -713,25 +713,26 @@ LOCK TABLES `lista` WRITE;
 UNLOCK TABLES;
 
 --
--- Temporary view structure for view `oaw_dashboard`
+-- Temporary table structure for view `oaw_dashboard`
 --
 
 DROP TABLE IF EXISTS `oaw_dashboard`;
 /*!50001 DROP VIEW IF EXISTS `oaw_dashboard`*/;
 SET @saved_cs_client     = @@character_set_client;
-/*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `oaw_dashboard` AS SELECT 
- 1 AS `id`,
- 1 AS `usr`,
- 1 AS `url`,
- 1 AS `email`,
- 1 AS `depth`,
- 1 AS `width`,
- 1 AS `report`,
- 1 AS `date`,
- 1 AS `status`,
- 1 AS `analysis_type`,
- 1 AS `in_directory`*/;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `oaw_dashboard` (
+  `id` tinyint NOT NULL,
+  `usr` tinyint NOT NULL,
+  `url` tinyint NOT NULL,
+  `email` tinyint NOT NULL,
+  `depth` tinyint NOT NULL,
+  `width` tinyint NOT NULL,
+  `report` tinyint NOT NULL,
+  `date` tinyint NOT NULL,
+  `status` tinyint NOT NULL,
+  `analysis_type` tinyint NOT NULL,
+  `in_directory` tinyint NOT NULL
+) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -740,10 +741,10 @@ SET character_set_client = @saved_cs_client;
 
 DROP TABLE IF EXISTS `observatorio`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `observatorio` (
   `id_observatorio` bigint NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `nombre` varchar(100) COLLATE utf8_bin NOT NULL,
   `id_periodicidad` bigint NOT NULL,
   `profundidad` int NOT NULL DEFAULT '0',
   `amplitud` int NOT NULL DEFAULT '0',
@@ -755,13 +756,13 @@ CREATE TABLE `observatorio` (
   `activo` tinyint(1) NOT NULL,
   `id_tipo` bigint DEFAULT NULL,
   `id_ambito` bigint DEFAULT NULL,
-  `tags` varchar(1024) COLLATE utf8mb3_bin DEFAULT NULL,
+  `tags` varchar(1024) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id_observatorio`),
   KEY `id_periodicidad` (`id_periodicidad`),
   KEY `id_language` (`id_language`),
   KEY `id_cartucho` (`id_cartucho`),
   KEY `id_tipo` (`id_tipo`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -779,11 +780,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `observatorio_ambito`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `observatorio_ambito` (
   `id_observatorio` bigint NOT NULL,
   `id_ambito` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -801,13 +802,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `observatorio_categoria`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `observatorio_categoria` (
   `id_observatorio` bigint NOT NULL,
   `id_categoria` bigint NOT NULL,
   PRIMARY KEY (`id_observatorio`,`id_categoria`),
   KEY `id_categoria` (`id_categoria`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -825,11 +826,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `observatorio_complejidad`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `observatorio_complejidad` (
   `id_observatorio` bigint NOT NULL,
   `id_complejidad` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -847,7 +848,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `observatorio_estado`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `observatorio_estado` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'Identificador autoincrementable',
   `id_observatorio` int NOT NULL COMMENT 'Identificador del observatorio',
@@ -856,14 +857,14 @@ CREATE TABLE `observatorio_estado` (
   `url` varchar(256) NOT NULL COMMENT 'URL de la semilla',
   `total_url` int NOT NULL COMMENT 'Total del URLs que se analizarán',
   `total_url_analizadas` int DEFAULT '0',
-  `ultima_url` varchar(6000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `ultima_url` varchar(6000) DEFAULT NULL,
   `fecha_ultima_url` datetime DEFAULT NULL COMMENT 'Fecha del fin de la última URL analizada',
-  `actual_url` varchar(6000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `actual_url` varchar(6000) DEFAULT NULL,
   `tiempo_medio` int DEFAULT NULL COMMENT 'Tiempo medio de análisis',
   `tiempo_acumulado` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_observatorio` (`id_observatorio`,`id_ejecucion_observatorio`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -881,13 +882,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `observatorio_lista`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `observatorio_lista` (
   `id_observatorio` bigint NOT NULL,
   `id_lista` bigint NOT NULL,
   PRIMARY KEY (`id_observatorio`,`id_lista`),
   KEY `id_lista` (`id_lista`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -905,14 +906,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `observatorio_metodologia`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `observatorio_metodologia` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `id_obs_realizado` bigint DEFAULT NULL,
-  `metodologia` mediumtext CHARACTER SET utf8mb3 COLLATE utf8mb3_bin,
+  `metodologia` mediumtext COLLATE utf8_bin,
   PRIMARY KEY (`id`),
   KEY `id_obs_realizado` (`id_obs_realizado`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -930,13 +931,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `observatorio_plantillas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `observatorio_plantillas` (
   `id_plantilla` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(1024) NOT NULL,
   `documento` longblob NOT NULL,
   PRIMARY KEY (`id_plantilla`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -954,12 +955,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `observatorio_proxy`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `observatorio_proxy` (
   `status` tinyint(1) NOT NULL,
   `url` varchar(64) NOT NULL,
   `port` varchar(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -978,12 +979,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `observatorio_tipo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `observatorio_tipo` (
   `id_tipo` bigint NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `name` varchar(100) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id_tipo`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1002,13 +1003,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `observatorio_usuario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `observatorio_usuario` (
   `id_observatorio` bigint NOT NULL,
   `id_usuario` bigint NOT NULL,
   PRIMARY KEY (`id_observatorio`,`id_usuario`),
   KEY `id_usuario` (`id_usuario`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1026,7 +1027,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `observatorios_realizados`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `observatorios_realizados` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `id_observatorio` bigint NOT NULL,
@@ -1036,7 +1037,7 @@ CREATE TABLE `observatorios_realizados` (
   PRIMARY KEY (`id`),
   KEY `id_observatorio` (`id_observatorio`),
   KEY `id_cartucho` (`id_cartucho`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1054,14 +1055,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `periodicidad`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `periodicidad` (
   `id_periodicidad` bigint NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `nombre` varchar(15) COLLATE utf8_bin NOT NULL,
   `dias` int DEFAULT NULL,
-  `cronExpression` varchar(40) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `cronExpression` varchar(40) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id_periodicidad`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1080,10 +1081,10 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `rastreo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rastreo` (
   `id_rastreo` bigint NOT NULL AUTO_INCREMENT,
-  `nombre_rastreo` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `nombre_rastreo` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `fecha` datetime DEFAULT NULL,
   `profundidad` int NOT NULL,
   `topn` int NOT NULL,
@@ -1108,7 +1109,7 @@ CREATE TABLE `rastreo` (
   KEY `id_language` (`id_language`),
   KEY `rastreo_ibfk_4` (`lista_rastreable`),
   KEY `rastreo_ibfk_5` (`lista_no_rastreable`)
-) ENGINE=MyISAM AUTO_INCREMENT=1069 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM AUTO_INCREMENT=1069 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1126,7 +1127,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `rastreos_realizados`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rastreos_realizados` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `id_rastreo` bigint NOT NULL,
@@ -1135,15 +1136,15 @@ CREATE TABLE `rastreos_realizados` (
   `id_cartucho` bigint NOT NULL,
   `id_obs_realizado` bigint DEFAULT NULL,
   `id_lista` bigint DEFAULT NULL,
-  `level` varchar(128) COLLATE utf8mb3_bin DEFAULT NULL,
-  `score` varchar(32) COLLATE utf8mb3_bin DEFAULT NULL,
+  `level` varchar(128) COLLATE utf8_bin DEFAULT NULL,
+  `score` varchar(32) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_usuario` (`id_usuario`),
   KEY `id_rastreo` (`id_rastreo`),
   KEY `id_cartucho` (`id_cartucho`),
   KEY `id_obs_realizado` (`id_obs_realizado`),
   KEY `id_lista` (`id_lista`)
-) ENGINE=MyISAM AUTO_INCREMENT=278 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM AUTO_INCREMENT=278 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1161,14 +1162,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `roles` (
   `id_rol` bigint NOT NULL AUTO_INCREMENT,
-  `rol` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `rol` varchar(50) COLLATE utf8_bin NOT NULL,
   `id_tipo` bigint DEFAULT NULL,
   PRIMARY KEY (`id_rol`),
   KEY `id_tipo` (`id_tipo`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1187,14 +1188,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `semilla_etiqueta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `semilla_etiqueta` (
   `id_lista` bigint NOT NULL DEFAULT '0',
   `id_etiqueta` bigint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_lista`,`id_etiqueta`),
   KEY `semilla_etiqueta_ibfk_1` (`id_etiqueta`),
   CONSTRAINT `semilla_etiqueta_ibfk_1` FOREIGN KEY (`id_etiqueta`) REFERENCES `etiqueta` (`id_etiqueta`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1212,7 +1213,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tanalisis`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tanalisis` (
   `cod_analisis` bigint NOT NULL AUTO_INCREMENT,
   `fec_analisis` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -1229,7 +1230,7 @@ CREATE TABLE `tanalisis` (
   KEY `cod_guideline` (`cod_guideline`),
   KEY `basic_service` (`nom_entidad`,`cod_rastreo`) USING BTREE,
   KEY `tanalisis_cod_rastreo` (`cod_rastreo`)
-) ENGINE=InnoDB AUTO_INCREMENT=2309 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB AUTO_INCREMENT=2309 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1247,7 +1248,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tanalisis_accesibilidad`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tanalisis_accesibilidad` (
   `id` int NOT NULL AUTO_INCREMENT,
   `id_analisis` int NOT NULL,
@@ -1255,7 +1256,7 @@ CREATE TABLE `tanalisis_accesibilidad` (
   `checks_ok` int DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_analisis_UNIQUE` (`id_analisis`,`url`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1273,7 +1274,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tanalisis_css`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tanalisis_css` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `url` varchar(2050) DEFAULT NULL,
@@ -1282,7 +1283,7 @@ CREATE TABLE `tanalisis_css` (
   PRIMARY KEY (`id`),
   KEY `id` (`id`),
   KEY `cod_analisis` (`cod_analisis`)
-) ENGINE=InnoDB AUTO_INCREMENT=28818 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB AUTO_INCREMENT=28818 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1300,12 +1301,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `termino`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `termino` (
   `id_termino` bigint NOT NULL AUTO_INCREMENT,
-  `termino` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `termino` varchar(50) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id_termino`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1323,12 +1324,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tguidelines`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tguidelines` (
   `cod_guideline` bigint NOT NULL AUTO_INCREMENT,
   `des_guideline` varchar(50) NOT NULL,
   PRIMARY KEY (`cod_guideline`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1347,7 +1348,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tincidencia`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tincidencia` (
   `cod_incidencia` bigint NOT NULL DEFAULT '0',
   `cod_comprobacion` bigint NOT NULL,
@@ -1356,7 +1357,7 @@ CREATE TABLE `tincidencia` (
   `cod_columna_fuente` bigint NOT NULL,
   `des_fuente` text,
   KEY `cod_analisis` (`cod_analisis`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1374,12 +1375,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tipo_lista`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tipo_lista` (
   `id_tipo` bigint NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `nombre` varchar(100) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id_tipo`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1397,12 +1398,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tipo_rol`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tipo_rol` (
   `id_tipo` bigint NOT NULL,
-  `nombre` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `nombre` varchar(50) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id_tipo`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1421,17 +1422,17 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `usuario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `usuario` (
   `id_usuario` bigint NOT NULL AUTO_INCREMENT,
-  `usuario` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `password` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `nombre` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `apellidos` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `departamento` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `usuario` varchar(100) COLLATE utf8_bin NOT NULL,
+  `password` varchar(100) COLLATE utf8_bin NOT NULL,
+  `nombre` varchar(100) COLLATE utf8_bin NOT NULL,
+  `apellidos` varchar(150) COLLATE utf8_bin NOT NULL,
+  `departamento` varchar(100) COLLATE utf8_bin NOT NULL,
+  `email` varchar(100) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id_usuario`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1450,13 +1451,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `usuario_cartucho`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `usuario_cartucho` (
   `id_usuario` bigint NOT NULL,
   `id_cartucho` bigint NOT NULL,
   PRIMARY KEY (`id_usuario`,`id_cartucho`),
   KEY `id_cartucho` (`id_cartucho`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1475,13 +1476,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `usuario_rol`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `usuario_rol` (
   `usuario` bigint NOT NULL,
   `id_rol` bigint NOT NULL,
   PRIMARY KEY (`usuario`,`id_rol`),
   KEY `id_rol` (`id_rol`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=COMPRESSED;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1502,13 +1503,14 @@ UNLOCK TABLES;
 -- Final view structure for view `oaw_dashboard`
 --
 
+/*!50001 DROP TABLE IF EXISTS `oaw_dashboard`*/;
 /*!50001 DROP VIEW IF EXISTS `oaw_dashboard`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
 /*!50001 SET @saved_cs_results         = @@character_set_results */;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8mb4 */;
 /*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 SET collation_connection      = utf8mb4_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `oaw_dashboard` AS select `basic_service`.`id` AS `id`,`basic_service`.`usr` AS `usr`,`basic_service`.`domain` AS `url`,`basic_service`.`email` AS `email`,`basic_service`.`depth` AS `depth`,`basic_service`.`width` AS `width`,`basic_service`.`report` AS `report`,`basic_service`.`date` AS `date`,`basic_service`.`status` AS `status`,`basic_service`.`analysis_type` AS `analysis_type`,`basic_service`.`in_directory` AS `in_directory` from `basic_service` */;
@@ -1525,4 +1527,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-18 11:27:28
+-- Dump completed on 2023-10-18 13:01:03
