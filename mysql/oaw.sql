@@ -969,7 +969,7 @@ CREATE TABLE `observatorio_proxy` (
 
 LOCK TABLES `observatorio_proxy` WRITE;
 /*!40000 ALTER TABLE `observatorio_proxy` DISABLE KEYS */;
-INSERT INTO `observatorio_proxy` VALUES (1,'127.0.0.1','18088');
+INSERT INTO `observatorio_proxy` VALUES (0,'127.0.0.1','18088');
 /*!40000 ALTER TABLE `observatorio_proxy` ENABLE KEYS */;
 UNLOCK TABLES;
 
